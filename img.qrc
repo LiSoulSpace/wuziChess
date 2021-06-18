@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/image/board">
+        <file alias="checkboard.png">qipan.png</file>
+    </qresource>
+    <qresource prefix="/image/piece">
+        <file>black_piece.png</file>
+        <file>white_piece.png</file>
+    </qresource>
+</RCC>
