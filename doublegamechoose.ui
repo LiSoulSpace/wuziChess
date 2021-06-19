@@ -209,6 +209,19 @@
     </layout>
    </widget>
   </widget>
+  <widget class="QCheckBox" name="checkBox_isForbidden">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>220</y>
+     <width>131</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>是否禁手</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -9,6 +9,7 @@
 #include "chessuiboard.h"
 #include "chess_main.h"
 #include "wuzi_chess.h"
+#include "wuzichessui_right.h"
 
 namespace Ui {
 class wuziChessUI;
@@ -22,12 +23,15 @@ public:
     explicit wuziChessUI(QWidget *parent = nullptr);
     ~wuziChessUI();
     void addChess(coordinate<ChessStatus> c);
+    void setFobidden(bool isFobidden);
+    void setUIRight(bool isFobidden);
 protected:
     void show_win_messagebox();
 public slots:
     void add_chess(int x, int y);
 
 private:
+    wuziChessUI_right* wuziChessRight;
     QGraphicsScene *scene;
     Ui::wuziChessUI *ui;
     wuzi_chess<ChessStatus> *wuziChess;

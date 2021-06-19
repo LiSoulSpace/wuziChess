@@ -10,6 +10,7 @@
 #include "chessuiboard.h"
 #include "chess_main.h"
 #include "wuzi_chess.h"
+#include "wuzichessui_right.h"
 
 class doubleWuziChessUI:public QWidget
 {
@@ -18,6 +19,8 @@ public:
     doubleWuziChessUI(QWidget *parent = nullptr, bool isOnline_p = false, ChessStatus mineChessColor_t = BLACK);
     ~doubleWuziChessUI();
     void addChess(coordinate<ChessStatus> c);
+    void setForbidden(bool isForbidden);
+    void setUIRightLabel(bool isFobidden);
 protected:
     void show_win_messagebox();
     void closeEvent(QCloseEvent *event);
@@ -33,6 +36,7 @@ private:
     bool isOnline;
     bool isFinished;
     bool isYourTurn;
+    wuziChessUI_right* wuziChessRight;
     ChessStatus mineChessColor;
     QString opponent;
     QGraphicsScene *scene;

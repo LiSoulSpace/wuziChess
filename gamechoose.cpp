@@ -17,5 +17,8 @@ GameChoose::~GameChoose()
 void GameChoose::on_pushButton_clicked()
 {
     wuzi_ui = new wuziChessUI();
+    bool isFobidden = ui->checkBox->isChecked();
+    wuzi_ui->setFobidden(isFobidden);
+    wuzi_ui->setUIRight(isFobidden);
     wuzi_ui->show();
 }

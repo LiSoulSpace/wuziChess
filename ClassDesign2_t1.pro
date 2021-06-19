@@ -20,7 +20,8 @@ SOURCES += \
     settingui.cpp \
     sockettcp.cpp \
     wuzi_chess.cpp \
-    wuzichessui.cpp
+    wuzichessui.cpp \
+    wuzichessui_right.cpp
 
 HEADERS += \
     chess_main.h \
@@ -33,14 +34,16 @@ HEADERS += \
     settingui.h \
     sockettcp.h \
     wuzi_chess.h \
-    wuzichessui.h
+    wuzichessui.h \
+    wuzichessui_right.h
 
 FORMS += \
     doublegamechoose.ui \
     gamechoose.ui \
     mainwindow.ui \
     settingui.ui \
-    wuzichessui.ui
+    wuzichessui.ui \
+    wuzichessui_right.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -16,6 +16,7 @@ DoubleGameChoose::DoubleGameChoose(QWidget *parent) :
     ui->pushButton_start->setEnabled(false);
     people_online = new QStringList();
     ui->lineEdit_name->setText("soulspace");
+    ui->radioButton_random->setChecked(true);
 }
 
 DoubleGameChoose::~DoubleGameChoose()
@@ -60,13 +61,26 @@ void DoubleGameChoose::analysisMessage(QString s)
                 this->ui->textEdit_status->append("Receive request from "+qsl.at(1)+", but you are not ready.");
             }else{
                 ChessStatus cs = NONE;
-                if(!QString::compare(qsl.at(3), "BLACK"))cs = WHITE;
-                else if(!QString::compare(qsl.at(3), "WHITE"))cs=BLACK;
+                QString temp;
+                if(!QString::compare(qsl.at(3), "BLACK")){
+                    cs = WHITE;
+                    temp = "WHITE";
+                }
+                else if(!QString::compare(qsl.at(3), "WHITE")){
+                    cs=BLACK;
+                    temp="BLACK";
+                }
                 double_chess_ui  = new doubleWuziChessUI(nullptr, true, cs);
                 connect(this, &DoubleGameChoose::sendCommendToUI, double_chess_ui, &doubleWuziChessUI::get_commend);
                 connect(double_chess_ui, &doubleWuziChessUI::sendDownChessMessageSignal, this, &DoubleGameChoose::downChessCSlot);
                 double_chess_ui->show();
-                socketTcp->send_Message("gameStart "+myName+" "+qsl.at(1)+" "+qsl.at(3));
+                bool isForbidden = false;
+                if(!QString::compare(qsl.at(4), "true"))isForbidden = true;
+                else if(!QString::compare(qsl.at(4), "false"))isForbidden = false;
+                double_chess_ui->setForbidden(isForbidden);
+                double_chess_ui->setUIRightLabel(isForbidden);
+                socketTcp->send_Message("gameStart "+myName+" "+qsl.at(1)+" "+qsl.at(3)+" "+qsl.at(4));
+                double_chess_ui->setWindowTitle(qsl.at(2)+'('+qsl.at(3)+')'+"与 "+qsl.at(1)+"对战");
                 nowOpponentName = qsl.at(1);
             }
         }
@@ -83,6 +97,12 @@ void DoubleGameChoose::analysisMessage(QString s)
             double_chess_ui = new doubleWuziChessUI(nullptr, true, cs);
             connect(this, &DoubleGameChoose::sendCommendToUI, double_chess_ui, &doubleWuziChessUI::get_commend);
             connect(double_chess_ui, &doubleWuziChessUI::sendDownChessMessageSignal, this, &DoubleGameChoose::downChessCSlot);
+            bool isForbidden = false;
+            if(!QString::compare(qsl.at(4), "true"))isForbidden = true;
+            else if(!QString::compare(qsl.at(4), "false"))isForbidden = false;
+            double_chess_ui->setForbidden(isForbidden);
+            double_chess_ui->setUIRightLabel(isForbidden);
+            double_chess_ui->setWindowTitle(qsl.at(2)+'('+qsl.at(3)+')'+"与 "+qsl.at(1)+"对战");
             double_chess_ui->show();
             nowOpponentName = qsl.at(1);
         }
@@ -156,6 +176,10 @@ void DoubleGameChoose::on_pushButton_start_clicked()
             else color_chess = "WHITE";
         }
         str = str+color_chess;
+        QString isForbidden;
+        if(ui->checkBox_isForbidden->isChecked())isForbidden = "true";
+        else isForbidden = "false";
+        str = str+' '+isForbidden;
         nowOpponentName = opponentName;
         socketTcp->send_Message(str);
     }
